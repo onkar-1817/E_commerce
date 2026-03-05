@@ -6,6 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useGlobalContext } from "../../GlobalContext";
 import Button from "../components/Button";
 import Input from "../components/Input";
+import InputPg from "./InputPg";
 interface FormData {
   name: string;
   email: string;
@@ -124,7 +125,7 @@ const SignUpPage = () => {
               )}
             </div>
           ))}
-
+{<InputPg />}
           <div className="flex justify-between text-sm w-full">
             <Link to="/forgot-password">
               <p className="cursor-pointer hover:text-blue-600">

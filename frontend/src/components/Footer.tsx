@@ -1,7 +1,6 @@
 import { Link, useLocation } from "react-router-dom";
 import Container from "../Container";
 import Button from "./Button";
-import Input from "./Input";
 
 const Footer = () => {
   const location = useLocation();

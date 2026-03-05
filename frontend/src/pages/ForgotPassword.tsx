@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import API from "../utils/Api";
 import Button from "../components/Button";
 import Input from "../components/Input";
+import { AxiosError } from "axios";
 
 const ForgotPassword = () => {
   const [email, setEmail] = useState("");
@@ -18,9 +19,13 @@ const ForgotPassword = () => {
       const res = await API.post("/api/users/forgot-password", { email });
       setMessage(res.data.message);
       toast.success("Reset link has been sent to your email");
-    } catch (error: any) {
-      setMessage(error.response?.data?.message || "Something went wrong");
-      toast.error("Somethingwent wrong");
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        setMessage(error.response?.data?.message || "Something went wrong");
+      } else {
+        setMessage("Something went wrong");
+      }
+      toast.error("Something went wrong");
     } finally {
       setIsLoading(false);
     }
@@ -44,7 +49,7 @@ const ForgotPassword = () => {
             placeholder="Enter email"
             size="large"
             onChange={(e) => setEmail(e.target.value)}
-            className="py-2 px-4 placeholder:text-amber-300"
+            inputClassName="py-2 px-4 placeholder:text-amber-300"
             required
           />
           <Button loading={isLoading} buttonType="submit" size="large">

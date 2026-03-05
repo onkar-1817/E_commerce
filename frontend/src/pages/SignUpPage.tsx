@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { useGlobalContext } from "../../GlobalContext";
 import Button from "../components/Button";
 import Input from "../components/Input";
-import InputPg from "./InputPg";
+import { AxiosError } from "axios";
 interface FormData {
   name: string;
   email: string;
@@ -45,8 +45,12 @@ const SignUpPage = () => {
       const response = await API.post("/api/users/signup", formData);
       toast.success(response.data.message);
       console.log(response.data);
-    } catch (error: any) {
-      toast.error(error.response?.data?.message || "Signup failed");
+    } catch (error) {
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data?.message || "Signup failed");
+      } else {
+        toast.error("Signup failed");
+      }
     }
     setFormData({
       name: "",
@@ -61,7 +65,7 @@ const SignUpPage = () => {
     const { email, password } = formData;
     if (!email || !password) {
       toast.warning("Please fill all fields");
-      setIsLoading(false)
+      setIsLoading(false);
       return;
     }
     setIsLoading(true);
@@ -74,15 +78,19 @@ const SignUpPage = () => {
       if (data) {
         navigate("/");
       }
-    } catch (error: any) {
+    } catch (error) {
       console.error("Login error", error);
-      toast.error(error.response?.data?.message || "Login failed");
+      if (error instanceof AxiosError) {
+        toast.error(error.response?.data?.message || "Login failed");
+      } else {
+        toast.error("Login failed");
+      }
     } finally {
       setIsLoading(false);
     }
   };
   const placeholders = ["John Doe", "hello@gmail.com", "password"];
-  const fieldNames :(keyof FormData)[] = ["name", "email", "password"];
+  const fieldNames: (keyof FormData)[] = ["name", "email", "password"];
 
   return (
     <Container>
@@ -125,7 +133,7 @@ const SignUpPage = () => {
               )}
             </div>
           ))}
-{<InputPg />}
+
           <div className="flex justify-between text-sm w-full">
             <Link to="/forgot-password">
               <p className="cursor-pointer hover:text-blue-600">

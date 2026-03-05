@@ -7,7 +7,7 @@ export type ButtonSize = "tiny" | "small" | "medium" | "large";
 interface ButtonProps {
   className?: string;
   children?: ReactNode;
-  onClick?: (e?: any) => void;
+  onClick?: (e?: React.MouseEvent<HTMLButtonElement>) => void;
   size?: ButtonSize;
   type?: ButtonType;
   buttonType?: "button" | "submit";
@@ -51,7 +51,7 @@ const Button = ({
         typeStyles[type],
         buttonSizes[size || "medium"],
         disabledStyles,
-        className
+        className,
       )}
       type={buttonType}
       disabled={disabled}

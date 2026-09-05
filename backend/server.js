@@ -23,6 +23,10 @@ app.get("/products", (req, res) => {
   Product.find().then((result) => res.json(result));
 });
 
+app.get("/api/health", (req, res) => {
+  res.status(200).json({ status: "ok" });
+});
+
 app.post("/products", async (req, res) => {
   try {
     const newProductData = req.body;

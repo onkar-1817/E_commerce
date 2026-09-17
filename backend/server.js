@@ -4,6 +4,7 @@ import { Product } from "./Model/ProductModel.js";
 import  userRoutes   from "./Routes/userRoutes.js"
 import dotenv from "dotenv";
 import mongoose from "mongoose";
+import { fileURLToPath } from "node:url";
 
 const app = express();
 dotenv.config();
@@ -14,10 +15,6 @@ app.use("/api/users", userRoutes)
 const PORT = process.env.PORT || 5000;
 
 const MONGO_URI = process.env.MONGO_URI;
-mongoose
-  .connect(MONGO_URI)
-  .then(() => console.log("Mongodb successfully connected"))
-  .catch((err) => console.error(err));
 
 app.get("/products", (req, res) => {
   Product.find().then((result) => res.json(result));
@@ -60,10 +57,6 @@ app.get("/products/:id", async (req, res) => {
       .status(500)
       .json({ message: "Something went wrong", error: error.message });
   }
-});
-
-app.listen(PORT, () => {
-  console.log(`Sever is running on http://localhost:${PORT}`);
 });
 
 app.delete("/products/:id", async (req, res) => {
@@ -133,3 +126,20 @@ app.patch("/products/:id", async (req, res) => {
       .json({ message: "Something went wrong", error: error.message });
   }
 });
+
+export function startServer() {
+  mongoose
+    .connect(MONGO_URI)
+    .then(() => console.log("Mongodb successfully connected"))
+    .catch((error) => console.error(error));
+
+  return app.listen(PORT, () => {
+    console.log(`Server is running on http://localhost:${PORT}`);
+  });
+}
+
+if (process.argv[1] === fileURLToPath(import.meta.url)) {
+  startServer();
+}
+
+export { app };

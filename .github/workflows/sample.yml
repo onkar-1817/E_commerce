@@ -1,1 +1,14 @@
-hi
+# Goal is to create simple workflows run
+
+name : Sample
+
+on:
+    push:
+ 
+jobs:
+     Simple:
+
+       runs-on: ubuntu latest
+       steps:    
+         - name: Sample Step     
+           run: echo "Github Actions is running successfully"

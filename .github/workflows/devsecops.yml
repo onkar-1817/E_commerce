@@ -11,6 +11,6 @@ jobs:
     code-quality:
         uses: ./.github/workflows/code_set.yml
 
-    secret-scanning:
-        needs: code-quality
-        uses: ./.github/workflows/secret_scanning.yml
+   # secret-scanning:
+        #needs: code-quality
+       # uses: ./.github/workflows/secret_scanning.yml

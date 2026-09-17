@@ -8,7 +8,7 @@ on:
 jobs:
      Simple:
 
-       runs-on: ubuntu latest
+       runs-on: ubuntu-latest
        steps:    
          - name: Sample Step     
            run: echo "Github Actions is running successfully"
